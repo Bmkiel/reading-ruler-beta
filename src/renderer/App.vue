@@ -18,9 +18,9 @@ export default {
   data() {
     return {
       lineColor: '#0095ff',
-      lineOpacity: 0.1,
+      lineOpacity: 0.12,
       lineY: 0,
-      lineHeight: 32,
+      lineHeight: 34,
     };
   },
   watch: {
