@@ -5,16 +5,26 @@ const isDevelopment = process.env.NODE_ENV !== 'production';
 let mainWindow = null;
 let overlayWindow = null;
 
+let config = {
+  rulerColor: '#0095ff',
+  rulerOpacity: 0.12,
+  rulerHeight: 34,
+};
+
 const createMainWindow = () => {
   mainWindow = new electron.BrowserWindow({
     autoHideMenuBar: true,
     webPreferences: {
+      contextIsolation: false,
       nodeIntegration: true,
     },
   });
   mainWindow.setSize(400, 300);
 
   mainWindow.webContents.on('did-finish-load', () => {
+    mainWindow.webContents.send('setConfig', {
+      config: config,
+    });
     mainWindow.webContents.send('setPage', {
       page: '/menu',
     });
@@ -33,6 +43,15 @@ const createMainWindow = () => {
     mainWindow.loadURL(`file://${__dirname}/index.html}`);
   }
 
+  electron.ipcMain.on('configChanged', (event, data) => {
+    config = data.config;
+    if (overlayWindow) {
+      overlayWindow.webContents.send('setConfig', {
+        config: config,
+      });
+    }
+  });
+
   mainWindow.on('closed', () => {
     mainWindow = null;
   });
@@ -46,6 +65,7 @@ const createOverlayWindow = () => {
     fullscreen: true,
     skipTaskbar: true,
     webPreferences: {
+      contextIsolation: false,
       nodeIntegration: true,
     },
   });
@@ -53,6 +73,9 @@ const createOverlayWindow = () => {
   overlayWindow.setAlwaysOnTop(true, 'screen');
 
   overlayWindow.webContents.on('did-finish-load', () => {
+    overlayWindow.webContents.send('setConfig', {
+      config: config,
+    });
     overlayWindow.webContents.send('setPage', {
       page: '/overlay',
     });

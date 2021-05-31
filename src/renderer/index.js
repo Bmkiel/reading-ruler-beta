@@ -10,6 +10,11 @@ const model = {
     x: 0,
     y: 0,
   },
+  config: {
+    rulerColor: '#000',
+    rulerOpacity: 1,
+    rulerHeight: 40,
+  },
   rulerEnabled: true,
 };
 
@@ -26,14 +31,25 @@ const app = new Vue({
         :page="page"
         :mousePosition="mousePosition"
         :rulerEnabled="rulerEnabled"
+        :config="config"
+        @configChanged="handleConfigChanged"
         />
   `,
+  methods: {
+    handleConfigChanged(config) {
+      model.config = config;
+      electron.ipcRenderer.send('configChanged', {
+        config: config,
+      });
+    },
+  },
 });
 
-document.body.style.background = 'none';
+electron.ipcRenderer.on('setConfig', (event, {config}) => {
+  model.config = config;
+});
 
 electron.ipcRenderer.on('setPage', (event, {page}) => {
-  console.log(page);
   model.page = page;
 });
 
