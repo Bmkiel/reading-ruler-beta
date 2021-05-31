@@ -27,16 +27,9 @@ const createWindows = () => {
 
   if (isDevelopment) {
     overlayWindow.loadURL(
-      `http://localhost:${process.env.ELECTRON_WEBPACK_WDS_PORT}`
-    );
+        `http://localhost:${process.env.ELECTRON_WEBPACK_WDS_PORT}`);
   } else {
-    overlayWindow.loadURL(
-      formatUrl({
-        pathname: path.join(__dirname, 'index.html'),
-        protocol: 'file',
-        slashes: true,
-      })
-    );
+    overlayWindow.loadURL(`file://${__dirname}/index.html}`);
   }
 
   overlayWindow.on('closed', () => {
