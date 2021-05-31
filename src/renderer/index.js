@@ -5,6 +5,7 @@ import App from './App.vue';
 import './main.css';
 
 const model = {
+  page: '/',
   mousePosition: {
     x: 0,
     y: 0,
@@ -22,6 +23,7 @@ const app = new Vue({
   },
   template: `
     <App
+        :page="page"
         :mousePosition="mousePosition"
         :rulerEnabled="rulerEnabled"
         />
@@ -30,7 +32,12 @@ const app = new Vue({
 
 document.body.style.background = 'none';
 
-electron.ipcRenderer.on('mouseMove', (event, mousePosition) => {
+electron.ipcRenderer.on('setPage', (event, {page}) => {
+  console.log(page);
+  model.page = page;
+});
+
+electron.ipcRenderer.on('mouseMove', (event, {mousePosition}) => {
   model.mousePosition = mousePosition;
 });
 
