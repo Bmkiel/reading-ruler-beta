@@ -52,6 +52,16 @@ const createMainWindow = () => {
     }
   });
 
+  mainWindow.on('close', () => {
+    if (mainWindow.isDevToolsOpened()) {
+      mainWindow.closeDevTools();
+    }
+    if (overlayWindow.isDevToolsOpened()) {
+      overlayWindow.closeDevTools();
+    }
+    electron.app.exit();
+  });
+
   mainWindow.on('closed', () => {
     mainWindow = null;
   });
