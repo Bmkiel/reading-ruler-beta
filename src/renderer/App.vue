@@ -1,12 +1,13 @@
 <template>
   <div class="overlay">
     <div
-        class="line"
+        class="ruler"
+        v-if="rulerEnabled"
         :style="{
-          background: 'linear-gradient(90deg, rgba(0,0,0,0), ' + lineColor + ', ' + lineColor + ', ' + lineColor + ', ' + lineColor + ', rgba(0,0,0,0))',
-          height: lineHeight + 'px',
-          opacity: lineOpacity,
-          top: (lineY - lineHeight / 2) + 'px',
+          background: 'linear-gradient(90deg, rgba(0,0,0,0), ' + rulerColor + ', ' + rulerColor + ', ' + rulerColor + ', ' + rulerColor + ', rgba(0,0,0,0))',
+          height: rulerHeight + 'px',
+          opacity: rulerOpacity,
+          top: (rulerY - rulerHeight / 2) + 'px',
         }">
     </div>
   </div>
@@ -14,25 +15,28 @@
 
 <script>
 export default {
-  props: ['mousePosition'],
+  props: [
+    'mousePosition',
+    'rulerEnabled',
+  ],
   data() {
     return {
-      lineColor: '#0095ff',
-      lineOpacity: 0.12,
-      lineY: 0,
-      lineHeight: 34,
+      rulerColor: '#0095ff',
+      rulerOpacity: 0.12,
+      rulerY: 0,
+      rulerHeight: 34,
     };
   },
   watch: {
     mousePosition(mousePosition) {
-      this.lineY = mousePosition.y;
+      this.rulerY = mousePosition.y;
     },
   },
 };
 </script>
 
 <style>
-.line {
+.ruler {
   display: block;
   position: fixed;
   width: 100%;

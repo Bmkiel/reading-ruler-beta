@@ -46,9 +46,13 @@ electron.app.on('ready', () => {
       x: mousePosition.x,
       y: mousePosition.y,
     });
-    setTimeout(updateLoop, 10);
+    setTimeout(updateLoop, 1000 / 60);
   };
   updateLoop();
+
+  electron.globalShortcut.register('Ctrl+Alt+-', () => {
+    overlayWindow.webContents.send('toggleRuler');
+  });
 });
 
 electron.app.on('activate', () => {
