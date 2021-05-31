@@ -1,6 +1,12 @@
 <template>
-  <div>
-    <canvas ref="canvas" class="canvas"></canvas>
+  <div class="overlay">
+    <div
+        class="line"
+        :style="{
+          height: lineHeight + 'px',
+          top: (lineY - lineHeight / 2) + 'px',
+        }">
+    </div>
   </div>
 </template>
 
@@ -11,42 +17,24 @@ export default {
   props: ['mousePosition'],
   data() {
     return {
-      canvas: null,
-      ctx: null,
+      lineY: 0,
+      lineHeight: 30,
     };
-  },
-  mounted() {
-    console.log(Vue);
-    this.canvas = this.$refs.canvas;
-    this.canvas.width = window.innerWidth;
-    this.canvas.height = window.innerHeight;
-    this.ctx = this.canvas.getContext('2d');
   },
   watch: {
     mousePosition(mousePosition) {
-      this.renderCanvas();
+      this.lineY = mousePosition.y;
     },
-  },
-  methods: {
-    renderCanvas() {
-      this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-      this.renderLine();
-    },
-    renderLine() {
-      this.ctx.fillStyle = '#000000';
-      this.ctx.globalAlpha = 0.05;
-      const size = 20;
-      this.ctx.fillRect(
-          0, this.mousePosition.y - size / 2, this.canvas.width, size);
-    }
   },
 };
 </script>
 
 <style>
-.canvas {
+.line {
+  background: rgba(0,0,0,.05);
   display: block;
-  overflow: hidden;
+  height: 30px;
+  position: fixed;
   width: 100%;
 }
 </style>
