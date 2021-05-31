@@ -7,7 +7,7 @@ let overlayWindow = null;
 
 let config = {
   rulerColor: '#0095ff',
-  rulerOpacity: 0.12,
+  rulerOpacity: 0.14,
   rulerHeight: 34,
 };
 
