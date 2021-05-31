@@ -3,7 +3,9 @@
     <div
         class="line"
         :style="{
+          background: 'linear-gradient(90deg, rgba(0,0,0,0), ' + lineColor + ', ' + lineColor + ', ' + lineColor + ', ' + lineColor + ', rgba(0,0,0,0))',
           height: lineHeight + 'px',
+          opacity: lineOpacity,
           top: (lineY - lineHeight / 2) + 'px',
         }">
     </div>
@@ -11,14 +13,14 @@
 </template>
 
 <script>
-import Vue from 'vue';
-
 export default {
   props: ['mousePosition'],
   data() {
     return {
+      lineColor: '#0095ff',
+      lineOpacity: 0.1,
       lineY: 0,
-      lineHeight: 30,
+      lineHeight: 32,
     };
   },
   watch: {
@@ -31,9 +33,7 @@ export default {
 
 <style>
 .line {
-  background: rgba(0,0,0,.05);
   display: block;
-  height: 30px;
   position: fixed;
   width: 100%;
 }
