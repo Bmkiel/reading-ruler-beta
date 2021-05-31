@@ -1,0 +1,20 @@
+{
+  "main": "lib/index.js",
+  "scripts": {
+    "dev": "electron-webpack dev",
+    "compile": "electron-webpack",
+    "dist": "yarn compile && electron-builder",
+    "dist:dir": "yarn dist --dir -c.compression=store -c.mac.identity=null"
+  },
+  "dependencies": {
+    "source-map-support": "^0.5.19",
+    "vue": "^2.6.12"
+  },
+  "devDependencies": {
+    "electron": "11.1.1",
+    "electron-builder": "^22.9.1",
+    "electron-webpack": "^2.8.2",
+    "electron-webpack-vue": "^2.4.0",
+    "webpack": "4.42.1"
+  }
+}
