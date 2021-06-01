@@ -2,44 +2,68 @@
   <div>
     <div class="menu" v-if="page === '/menu'">
       <div>
-        <label>Ruler height</label>
-        <input :value="config.rulerHeight" @input="handleRulerHeightChange($event.target.value)">
+        <label>
+          Enable ruler (Ctrl+Alt+-)
+          <input type="checkbox" :checked="rulerEnabled" @input="handleRulerEnabledChanged($event.target.checked)">
+        </label>
       </div>
       <div>
-        <label>Ruler color</label>
-        <input :value="config.rulerColor" @input="handleRulerColorChange($event.target.value)">
+        <label>
+          Ruler height
+          <input type="number" :value="config.rulerHeight" @input="handleRulerHeightChanged($event.target.value)">
+        </label>
       </div>
       <div>
-        <label>Ruler opacity</label>
-        <input :value="config.rulerOpacity" @input="handleRulerOpacityChange($event.target.value)">
+        <label>
+          Ruler color
+          <input :value="config.rulerColor" @input="handleRulerColorChanged($event.target.value)">
+        </label>
+      </div>
+      <div>
+        <label>
+          Ruler opacity
+          <input :value="config.rulerOpacity" @input="handleRulerOpacityChanged($event.target.value)">
+        </label>
+      </div>
+      <div>
+        <label>
+          Invert ruler
+          <input type="checkbox" :checked="config.rulerInverted" @input="handleRulerInvertedChanged($event.target.checked)">
+        </label>
       </div>
     </div>
     <div class="overlay" v-if="page === '/overlay'">
-      <div
-          class="ruler"
-          :style="{
-            background: 'linear-gradient(90deg, rgba(0,0,0,0), ' + config.rulerColor + ', ' + config.rulerColor + ', ' + config.rulerColor + ', ' + config.rulerColor + ', rgba(0,0,0,0))',
-            height: config.rulerHeight + 'px',
-            opacity: rulerEnabled ? config.rulerOpacity : 0,
-            top: (rulerY - config.rulerHeight / 2) + 'px',
-          }">
-      </div>
+      <Ruler
+          :top="rulerY"
+          :color="config.rulerColor"
+          :height="config.rulerHeight"
+          :opacity="rulerEnabled ? config.rulerOpacity : 0"
+          :inverted="config.rulerInverted"
+          />
     </div>
   </div>
 </template>
 
 <script>
+import Ruler from './Ruler.vue';
+
 export default {
-  props: [
-    'page',
-    'mousePosition',
-    'rulerEnabled',
-    'config',
-  ],
+  props: {
+    page: String,
+    mousePosition: {
+      x: Number,
+      y: Number,
+    },
+    rulerEnabled: Boolean,
+    config: Object,
+  },
   data() {
     return {
       rulerY: 0,
     };
+  },
+  components: {
+    Ruler,
   },
   watch: {
     mousePosition(mousePosition) {
@@ -47,22 +71,31 @@ export default {
     },
   },
   methods: {
-    handleRulerHeightChange(rulerHeight) {
+    handleRulerEnabledChanged(rulerEnabled) {
+      this.$emit('rulerEnabledChanged', rulerEnabled);
+    },
+    handleRulerHeightChanged(rulerHeight) {
       this.$emit('configChanged', {
         ...this.config,
         rulerHeight: rulerHeight,
       });
     },
-    handleRulerColorChange(rulerColor) {
+    handleRulerColorChanged(rulerColor) {
       this.$emit('configChanged', {
         ...this.config,
         rulerColor: rulerColor,
       });
     },
-    handleRulerOpacityChange(rulerOpacity) {
+    handleRulerOpacityChanged(rulerOpacity) {
       this.$emit('configChanged', {
         ...this.config,
         rulerOpacity: rulerOpacity,
+      });
+    },
+    handleRulerInvertedChanged(rulerInverted) {
+      this.$emit('configChanged', {
+        ...this.config,
+        rulerInverted: rulerInverted,
       });
     },
   },
@@ -70,10 +103,4 @@ export default {
 </script>
 
 <style>
-.ruler {
-  display: block;
-  position: fixed;
-  transition: top .05s, height .1s, color .15s, opacity .15s;
-  width: 100%;
-}
 </style>

@@ -4,27 +4,26 @@ import Vue from 'vue';
 import App from './App.vue';
 import './main.css';
 
-const model = {
-  page: '/',
-  mousePosition: {
-    x: 0,
-    y: 0,
-  },
-  config: {
-    rulerColor: '#000',
-    rulerOpacity: 1,
-    rulerHeight: 40,
-  },
-  rulerEnabled: true,
-};
-
 const app = new Vue({
   el: '#app',
   components: {
     App,
   },
   data() {
-    return model;
+    return {
+      page: '/',
+      mousePosition: {
+        x: 0,
+        y: 0,
+      },
+      rulerEnabled: true,
+      config: {
+        rulerColor: '#000',
+        rulerOpacity: 1,
+        rulerHeight: 40,
+        rulerInverted: false,
+      },
+    };
   },
   template: `
     <App
@@ -32,35 +31,42 @@ const app = new Vue({
         :mousePosition="mousePosition"
         :rulerEnabled="rulerEnabled"
         :config="config"
+        @rulerEnabledChanged="handleRulerEnabledChanged"
         @configChanged="handleConfigChanged"
         />
   `,
   methods: {
+    handleRulerEnabledChanged(rulerEnabled) {
+      this.rulerEnabled = rulerEnabled;
+      electron.ipcRenderer.send('rulerEnabledChanged', {
+        rulerEnabled: this.rulerEnabled,
+      });
+    },
     handleConfigChanged(config) {
-      model.config = config;
+      this.config = config;
       electron.ipcRenderer.send('configChanged', {
-        config: config,
+        config: this.config,
       });
     },
   },
 });
 
 electron.ipcRenderer.on('setConfig', (event, {config}) => {
-  model.config = config;
+  app.config = config;
 });
 
 electron.ipcRenderer.on('setPage', (event, {page}) => {
-  model.page = page;
+  app.page = page;
 });
 
 electron.ipcRenderer.on('mouseMove', (event, {mousePosition}) => {
-  model.mousePosition = mousePosition;
+  app.mousePosition = mousePosition;
 });
 
 electron.ipcRenderer.on('mouseDown', (event) => {});
 
 electron.ipcRenderer.on('mouseUp', (event) => {});
 
-electron.ipcRenderer.on('toggleRuler', (event) => {
-  model.rulerEnabled = !model.rulerEnabled;
+electron.ipcRenderer.on('setRulerEnabled', (event, {rulerEnabled}) => {
+  app.rulerEnabled = rulerEnabled;
 });

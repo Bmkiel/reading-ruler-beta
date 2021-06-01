@@ -6,21 +6,23 @@ const isDevelopment = process.env.NODE_ENV !== 'production';
 let mainWindow = null;
 let overlayWindow = null;
 
+let rulerEnabled = true;
 let config = {
   rulerColor: '#0095ff',
   rulerOpacity: 0.14,
   rulerHeight: 34,
+  invertedRuler: false,
 };
 
 const createMainWindow = () => {
   mainWindow = new electron.BrowserWindow({
     title: 'Reading Ruler',
-    autoHideMenuBar: true,
     webPreferences: {
       contextIsolation: false,
       nodeIntegration: true,
     },
   });
+  mainWindow.setMenuBarVisibility(false);
   mainWindow.setSize(400, 300);
 
   if (isDevelopment) {
@@ -50,6 +52,14 @@ const createMainWindow = () => {
     if (overlayWindow) {
       overlayWindow.webContents.send('setConfig', {
         config: config,
+      });
+    }
+  });
+  electron.ipcMain.on('rulerEnabledChanged', (event, data) => {
+    rulerEnabled = data.rulerEnabled;
+    if (overlayWindow) {
+      overlayWindow.webContents.send('setRulerEnabled', {
+        rulerEnabled: rulerEnabled,
       });
     }
   });
@@ -114,7 +124,7 @@ const createOverlayWindow = () => {
         y: mousePosition.y,
       },
     });
-  }, 1000 / 60);
+  }, 1000 / 30);
 
   overlayWindow.on('closed', () => {
     clearInterval(updateLoopId);
@@ -127,8 +137,16 @@ electron.app.on('ready', () => {
   createOverlayWindow();
 
   electron.globalShortcut.register('Ctrl+Alt+-', () => {
+    rulerEnabled = !rulerEnabled;
+    if (mainWindow) {
+      mainWindow.webContents.send('setRulerEnabled', {
+        rulerEnabled: rulerEnabled,
+      });
+    }
     if (overlayWindow) {
-      overlayWindow.webContents.send('toggleRuler');
+      overlayWindow.webContents.send('setRulerEnabled', {
+        rulerEnabled: rulerEnabled,
+      });
     }
   });
 });
