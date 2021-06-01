@@ -10,12 +10,14 @@
           class="ruler-box ruler-box-top"
           :style="{
             background: `linear-gradient(90deg, rgba(0,0,0,0), ${color}, ${color}, ${color}, ${color}, rgba(0,0,0,0))`,
+            top: `calc(-100vh)`,
           }">
       </div>
       <div
           class="ruler-box ruler-box-bottom"
           :style="{
             background: `linear-gradient(90deg, rgba(0,0,0,0), ${color}, ${color}, ${color}, ${color}, rgba(0,0,0,0))`,
+            top: `calc(-100vh + ${height}px)`,
           }">
       </div>
     </div>
@@ -61,13 +63,6 @@ export default {
 .ruler-box {
   height: 100vh;
   position: relative;
-}
-
-.ruler-box-top {
-  top: calc(-100vh - 4vh);
-}
-
-.ruler-box-bottom {
-  top: calc(-100vh + 2*4vh);
+  transition: top .05s;
 }
 </style>
