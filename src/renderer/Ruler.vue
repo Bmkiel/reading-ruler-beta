@@ -9,14 +9,14 @@
       <div
           class="ruler-box ruler-box-top"
           :style="{
-            background: `linear-gradient(90deg, rgba(0,0,0,0), ${color}, ${color}, ${color}, ${color}, rgba(0,0,0,0))`,
+            background: backgroundColor,
             top: `calc(-100vh)`,
           }">
       </div>
       <div
           class="ruler-box ruler-box-bottom"
           :style="{
-            background: `linear-gradient(90deg, rgba(0,0,0,0), ${color}, ${color}, ${color}, ${color}, rgba(0,0,0,0))`,
+            background: backgroundColor,
             top: `calc(-100vh + ${height}px)`,
           }">
       </div>
@@ -25,7 +25,7 @@
       <div
           class="ruler-line"
           :style="{
-            background: `linear-gradient(90deg, rgba(0,0,0,0), ${color}, ${color}, ${color}, ${color}, rgba(0,0,0,0))`,
+            background: backgroundColor,
             height: height + 'px',
           }">
       </div>
@@ -45,6 +45,11 @@ export default {
   data() {
     return {};
   },
+  computed: {
+    backgroundColor() {
+      return `linear-gradient(90deg, rgba(0,0,0,0), ${this.color}, ${this.color}, ${this.color}, ${this.color}, rgba(0,0,0,0))`;
+    },
+  }
 };
 </script>
 
