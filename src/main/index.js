@@ -14,6 +14,7 @@ let config = {
 
 const createMainWindow = () => {
   mainWindow = new electron.BrowserWindow({
+    title: 'Reading Ruler',
     autoHideMenuBar: true,
     webPreferences: {
       contextIsolation: false,

@@ -8,6 +8,9 @@
     "dist": "yarn compile && electron-builder",
     "dist:dir": "yarn dist --dir -c.compression=store -c.mac.identity=null"
   },
+  "build": {
+    "productName": "Reading Ruler"
+  },
   "dependencies": {
     "source-map-support": "^0.5.19",
     "vue": "^2.6.12"
