@@ -1,7 +1,7 @@
 {
   "name": "reading-ruler",
   "version": "0.1.0",
-  "main": "lib/index.js",
+  "main": "src/main/index.js",
   "scripts": {
     "dev": "electron-webpack dev",
     "compile": "electron-webpack",
