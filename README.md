@@ -1,6 +1,6 @@
 # Reading Ruler
 
-Digital ruler helping you read.
+Read better using a digital ruler.
 
 ## Develop
 
