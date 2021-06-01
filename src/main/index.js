@@ -22,6 +22,12 @@ const createMainWindow = () => {
   });
   mainWindow.setSize(400, 300);
 
+  if (isDevelopment) {
+    mainWindow.webContents.openDevTools({
+      mode: 'undocked',
+    });
+  }
+
   mainWindow.webContents.on('did-finish-load', () => {
     mainWindow.webContents.send('setConfig', {
       config: config,
@@ -30,12 +36,6 @@ const createMainWindow = () => {
       page: '/menu',
     });
   });
-
-  if (isDevelopment) {
-    mainWindow.webContents.openDevTools({
-      mode: 'undocked',
-    });
-  }
 
   if (isDevelopment) {
     mainWindow.loadURL(
@@ -83,6 +83,12 @@ const createOverlayWindow = () => {
   overlayWindow.setIgnoreMouseEvents(true);
   overlayWindow.setAlwaysOnTop(true, 'screen');
 
+  if (isDevelopment) {
+    overlayWindow.webContents.openDevTools({
+      mode: 'undocked',
+    });
+  }
+
   overlayWindow.webContents.on('did-finish-load', () => {
     overlayWindow.webContents.send('setConfig', {
       config: config,
@@ -91,12 +97,6 @@ const createOverlayWindow = () => {
       page: '/overlay',
     });
   });
-
-  if (isDevelopment) {
-    overlayWindow.webContents.openDevTools({
-      mode: 'undocked',
-    });
-  }
 
   if (isDevelopment) {
     overlayWindow.loadURL(
