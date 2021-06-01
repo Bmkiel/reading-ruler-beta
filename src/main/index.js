@@ -1,4 +1,5 @@
 import * as electron from 'electron';
+import * as path from 'path';
 
 const isDevelopment = process.env.NODE_ENV !== 'production';
 
@@ -40,7 +41,7 @@ const createMainWindow = () => {
     mainWindow.loadURL(
         `http://localhost:${process.env.ELECTRON_WEBPACK_WDS_PORT}`);
   } else {
-    mainWindow.loadURL(`file://${__dirname}/index.html}`);
+    mainWindow.loadFile(path.join(__dirname, 'index.html'));
   }
 
   electron.ipcMain.on('configChanged', (event, data) => {
@@ -101,7 +102,7 @@ const createOverlayWindow = () => {
     overlayWindow.loadURL(
         `http://localhost:${process.env.ELECTRON_WEBPACK_WDS_PORT}`);
   } else {
-    overlayWindow.loadURL(`file://${__dirname}/index.html}`);
+    overlayWindow.loadFile(path.join(__dirname, 'index.html'));
   }
 
   const updateLoopId = setInterval(() => {
