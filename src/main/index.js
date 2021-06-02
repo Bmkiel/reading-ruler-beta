@@ -3,15 +3,23 @@ import * as path from 'path';
 
 const isDevelopment = process.env.NODE_ENV !== 'production';
 
-let mainWindow = null;
-let overlayWindow = null;
-
-let rulerEnabled = true;
-let config = {
+const defaultConfig = {
   rulerColor: '#0095ff',
   rulerOpacity: 0.14,
   rulerHeight: 34,
   invertedRuler: false,
+};
+
+let mainWindow = null;
+let overlayWindow = null;
+
+let rulerEnabled = true;
+let config = {...defaultConfig};
+
+const validateConfig = (config) => {
+  const maxRulerOpacity = 0.9;
+  config.rulerOpacity =
+      Math.max(0, Math.min(maxRulerOpacity, config.rulerOpacity));
 };
 
 const createMainWindow = () => {
@@ -49,6 +57,7 @@ const createMainWindow = () => {
 
   electron.ipcMain.on('configChanged', (event, data) => {
     config = data.config;
+    validateConfig(config);
     if (overlayWindow) {
       overlayWindow.webContents.send('setConfig', {
         config: config,
@@ -60,6 +69,20 @@ const createMainWindow = () => {
     if (overlayWindow) {
       overlayWindow.webContents.send('setRulerEnabled', {
         rulerEnabled: rulerEnabled,
+      });
+    }
+  });
+  electron.ipcMain.on('configReset', (event) => {
+    console.log('foo');
+    config = {...defaultConfig};
+    if (mainWindow) {
+      mainWindow.webContents.send('setConfig', {
+        config: config,
+      });
+    }
+    if (overlayWindow) {
+      overlayWindow.webContents.send('setConfig', {
+        config: config,
       });
     }
   });

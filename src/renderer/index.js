@@ -33,6 +33,7 @@ const app = new Vue({
         :config="config"
         @rulerEnabledChanged="handleRulerEnabledChanged"
         @configChanged="handleConfigChanged"
+        @configReset="handleConfigReset"
         />
   `,
   methods: {
@@ -47,6 +48,9 @@ const app = new Vue({
       electron.ipcRenderer.send('configChanged', {
         config: this.config,
       });
+    },
+    handleConfigReset() {
+      electron.ipcRenderer.send('configReset');
     },
   },
 });
