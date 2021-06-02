@@ -211,7 +211,7 @@ export default {
   display: inline;
   float: left;
   height: 20px;
-  margin: 0 -2px;
+  margin: 0 -2px -2px;
   outline: 0;
   position: relative;
   top: -1px;
