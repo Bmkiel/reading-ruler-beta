@@ -55,6 +55,16 @@ const app = new Vue({
   },
 });
 
+window.addEventListener('keydown', (event) => {
+  // Disable zoom.
+  const plus = 187;
+  const minus = 189;
+  if ((event.keyCode === plus || event.keyCode === minus) &&
+      (event.ctrlKey || event.metaKey)) {
+    event.preventDefault();
+  }
+});
+
 electron.ipcRenderer.on('setConfig', (event, {config}) => {
   app.config = config;
 });
