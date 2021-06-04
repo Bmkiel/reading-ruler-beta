@@ -133,7 +133,7 @@ electron.app.on('ready', () => {
   createMainWindow();
   createOverlayWindow();
 
-  electron.globalShortcut.register('Ctrl+Alt+-', () => {
+  electron.globalShortcut.register('CommandOrControl+Alt+-', () => {
     rulerEnabled = !rulerEnabled;
     if (mainWindow) {
       mainWindow.webContents.send('setRulerEnabled', {
