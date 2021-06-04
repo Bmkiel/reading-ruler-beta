@@ -192,17 +192,10 @@ const sendToAllWindows = (name, value) => {
 
 const setConfig = (config) => {
   state.config = config;
-  validateConfig(state.config);
   sendToAllWindows('setConfig', {
     config: state.config,
   });
   store.set('config', state.config);
-};
-
-const validateConfig = (config) => {
-  const maxRulerOpacity = 0.9;
-  config.rulerOpacity =
-      Math.max(0, Math.min(maxRulerOpacity, config.rulerOpacity));
 };
 
 const setRulerEnabled = (rulerEnabled) => {

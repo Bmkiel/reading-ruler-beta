@@ -3,7 +3,7 @@
       class="ruler"
       :style="{
         top: (top - height / 2) + 'px',
-        opacity: opacity,
+        opacity: clampedOpacity,
       }">
     <div v-if="inverted">
       <div
@@ -49,6 +49,10 @@ export default {
     backgroundColor() {
       return `linear-gradient(90deg, rgba(0,0,0,0), ${this.color}, ${this.color}, ${this.color}, ${this.color}, rgba(0,0,0,0))`;
     },
+    clampedOpacity() {
+      const maxRulerOpacity = 0.85;
+      return Math.max(0, Math.min(maxRulerOpacity, this.opacity));
+    }
   }
 };
 </script>
