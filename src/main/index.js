@@ -73,7 +73,7 @@ const createMainWindow = () => {
     }
   });
   electron.ipcMain.on('configReset', (event) => {
-§§    config = {...defaultConfig};
+    config = {...defaultConfig};
     if (mainWindow) {
       mainWindow.webContents.send('setConfig', {
         config: config,
