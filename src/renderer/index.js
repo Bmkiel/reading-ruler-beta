@@ -73,13 +73,9 @@ electron.ipcRenderer.on('setPage', (event, {page}) => {
   app.page = page;
 });
 
-electron.ipcRenderer.on('mouseMove', (event, {mousePosition}) => {
+electron.ipcRenderer.on('setMousePosition', (event, {mousePosition}) => {
   app.mousePosition = mousePosition;
 });
-
-electron.ipcRenderer.on('mouseDown', (event) => {});
-
-electron.ipcRenderer.on('mouseUp', (event) => {});
 
 electron.ipcRenderer.on('setRulerEnabled', (event, {rulerEnabled}) => {
   app.rulerEnabled = rulerEnabled;
