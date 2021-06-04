@@ -70,6 +70,7 @@ electron.ipcRenderer.on('setConfig', (event, {config}) => {
 });
 
 electron.ipcRenderer.on('setPage', (event, {page}) => {
+  console.log('Go to page', page);
   app.page = page;
 });
 
