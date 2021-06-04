@@ -12,6 +12,7 @@
     "productName": "Reading Ruler"
   },
   "dependencies": {
+    "electron-store": "^8.0.0",
     "source-map-support": "^0.5.19",
     "vue": "^2.6.12"
   },

@@ -1,5 +1,6 @@
 import * as electron from 'electron';
 import * as path from 'path';
+import * as Store from 'electron-store';
 
 const isDevelopment = process.env.NODE_ENV !== 'production';
 
@@ -10,11 +11,16 @@ const defaultConfig = {
   invertedRuler: false,
 };
 
+const store = new Store();
+
 let mainWindow = null;
 let overlayWindow = null;
 
 let rulerEnabled = true;
-let config = {...defaultConfig};
+let config = store.get('config');
+if (!config) {
+  config = {...defaultConfig};
+}
 
 const validateConfig = (config) => {
   const maxRulerOpacity = 0.9;
@@ -54,37 +60,6 @@ const createMainWindow = () => {
   } else {
     mainWindow.loadFile(path.join(__dirname, 'index.html'));
   }
-
-  electron.ipcMain.on('configChanged', (event, data) => {
-    config = data.config;
-    validateConfig(config);
-    if (overlayWindow) {
-      overlayWindow.webContents.send('setConfig', {
-        config: config,
-      });
-    }
-  });
-  electron.ipcMain.on('rulerEnabledChanged', (event, data) => {
-    rulerEnabled = data.rulerEnabled;
-    if (overlayWindow) {
-      overlayWindow.webContents.send('setRulerEnabled', {
-        rulerEnabled: rulerEnabled,
-      });
-    }
-  });
-  electron.ipcMain.on('configReset', (event) => {
-    config = {...defaultConfig};
-    if (mainWindow) {
-      mainWindow.webContents.send('setConfig', {
-        config: config,
-      });
-    }
-    if (overlayWindow) {
-      overlayWindow.webContents.send('setConfig', {
-        config: config,
-      });
-    }
-  });
 
   mainWindow.on('close', () => {
     if (mainWindow.isDevToolsOpened()) {
@@ -180,5 +155,41 @@ electron.app.on('activate', () => {
   }
   if (overlayWindow === null) {
     createOverlayWindow();
+  }
+});
+
+electron.ipcMain.on('rulerEnabledChanged', (event, data) => {
+  rulerEnabled = data.rulerEnabled;
+  if (overlayWindow) {
+    overlayWindow.webContents.send('setRulerEnabled', {
+      rulerEnabled: rulerEnabled,
+    });
+  }
+});
+
+electron.ipcMain.on('configChanged', (event, data) => {
+  config = data.config;
+  validateConfig(config);
+  store.set('config', config);
+
+  if (overlayWindow) {
+    overlayWindow.webContents.send('setConfig', {
+      config: config,
+    });
+  }
+});
+
+electron.ipcMain.on('configReset', (event) => {
+  config = {...defaultConfig};
+  
+  if (mainWindow) {
+    mainWindow.webContents.send('setConfig', {
+      config: config,
+    });
+  }
+  if (overlayWindow) {
+    overlayWindow.webContents.send('setConfig', {
+      config: config,
+    });
   }
 });
