@@ -196,6 +196,7 @@ const setConfig = (config) => {
   sendToAllWindows('setConfig', {
     config: state.config,
   });
+  store.set('config', state.config);
 };
 
 const validateConfig = (config) => {
