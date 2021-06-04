@@ -12,6 +12,6 @@ Reading Ruler is a cross-platform Electron app which displays translucent boxes 
 
 Install dependencies with `yarn install`
 
-Launch development session with `yarn dev`
+Launch development session with `yarn dev` (might not work on macOS)
 
 Build executables with `yarn dist`
