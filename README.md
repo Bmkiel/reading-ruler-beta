@@ -16,7 +16,7 @@ Launch development session with `yarn dev` (might not work on macOS, see [#8](ht
 
 Build executables with `yarn dist`
 
-## Running
+## Run
 
 After building executables with `yarn dist` you will find an app installer in the `dist` directory.
 If you build the app on Windows/macOS/Linux you will get a corresponding installer that you can run.
