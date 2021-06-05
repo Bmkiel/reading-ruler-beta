@@ -14,4 +14,4 @@ Install dependencies with `yarn install`
 
 Launch development session with `yarn dev` (might not work on macOS, see [#8](https://github.com/carlenlund/reading-ruler/issues/8))
 
-Build executables with `yarn dist`
+Build executables to the `dist` directory with `yarn dist`
