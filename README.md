@@ -6,6 +6,8 @@ Reading Ruler is a cross-platform Electron app which displays translucent boxes 
 
 [Download latest version](https://github.com/carlenlund/reading-ruler/releases)
 
+## Demo
+
 ![Demo](reading-ruler.gif)
 
 ## Develop
