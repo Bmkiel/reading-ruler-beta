@@ -9,14 +9,14 @@
       <div
           class="ruler-box ruler-box-top"
           :style="{
-            background: backgroundColor,
+            background: color,
             top: `calc(-100vh)`,
           }">
       </div>
       <div
           class="ruler-box ruler-box-bottom"
           :style="{
-            background: backgroundColor,
+            background: color,
             top: `calc(-100vh + ${height}px)`,
           }">
       </div>
@@ -25,7 +25,7 @@
       <div
           class="ruler-line"
           :style="{
-            background: backgroundColor,
+            background: fadedColor,
             height: height + 'px',
           }">
       </div>
@@ -46,8 +46,8 @@ export default {
     return {};
   },
   computed: {
-    backgroundColor() {
-      return `linear-gradient(90deg, rgba(0,0,0,0), ${this.color}, ${this.color}, ${this.color}, ${this.color}, rgba(0,0,0,0))`;
+    fadedColor() {
+      return `linear-gradient(90deg, rgba(0,0,0,0), ${this.color}, ${this.color}, ${this.color}, ${this.color}, ${this.color}, rgba(0,0,0,0))`;
     },
     clampedOpacity() {
       const maxRulerOpacity = 0.85;
