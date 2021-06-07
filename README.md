@@ -1,4 +1,4 @@
-# Reading Ruler
+# Reading Ruler (beta version)
 
 Read better using a digital ruler.
 
